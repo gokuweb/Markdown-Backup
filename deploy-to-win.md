@@ -119,7 +119,7 @@ deploy:
   branch: master
   
   type: git
-  repo: https://github.com/kuboy8/kuboy8.github.io
+  repo: https://github.com/yourgit/yourgit.github.io
   branch: master
 ```
 &#8195;&#8195;成功后就可以实现自动化部署了。

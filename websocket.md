@@ -60,7 +60,7 @@ Websocket 连接过程：
 ## WebSocket、HTTP 与 TCP
 &#8195;&#8195;从上面的图中可以看出，HTTP、WebSocket 等应用层协议，都是基于 TCP 协议来传输数据的。我们可以把这些高级协议理解成对 TCP 的封装。
 &#8195;&#8195;既然大家都使用 TCP 协议，那么大家的连接和断开，都要遵循 [TCP 协议中的三次握手和四次挥手](http://blog.csdn.net/whuslei/article/details/6667471) ，只是在连接之后发送的内容不同，或者是断开的时间不同。
-更详细内容可阅读：wireshark抓包图解 [TCP三次握手/四次挥手详解](http://www.seanyxie.com/wireshark%E6%8A%93%E5%8C%85%E5%9B%BE%E8%A7%A3-tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%E8%AF%A6%E8%A7%A3/)。
+更详细内容可阅读：[wireshark抓包分析 TCP三次握手/四次挥手详解](http://www.seanyxie.com/a/jisuanjijichu/wangluo/2019/0319/8.html)。
 &#8195;&#8195;对于 WebSocket 来说，它必须依赖 [HTTP 协议进行一次握手](http://tools.ietf.org/html/rfc6455#section-4) ，握手成功后，数据就直接从 TCP 通道传输，与 HTTP 无关了。
 
 WebSocket 和 HTTP 相同点：

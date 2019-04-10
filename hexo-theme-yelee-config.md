@@ -256,6 +256,7 @@ $ npm install hexo-generator-feed --save
 ## 相关
 ### Hexo安装
 1. 安装Nodjs
+&#8195;&#8195;安装方法有 apt-get、源码安装等方法，我们选择解压版本的 Nodejs，加压后添加软连接就可以使用，无需编译安装：
 ```shell
 wget https://nodejs.org/dist/v8.12.0/node-v8.12.0-linux-x64.tar.xz
 tar xf node-v8.12.0-linux-x64.tar.xz
@@ -265,22 +266,34 @@ node -v
 npm -v
 ```
 
-2. 安装Git
+2. 安装 Git
 ```shell
 sudo apt-get install git
 ```
 
-3. 安装Hexo
+3. 安装 Hexo
 ```shell
-sudo apt-get install git-core
+npm install -g hexo-cli
 sudo ln -s /home/zx/node-v8.12.0-linux-x64/lib/node_modules/hexo-cli/bin/hexo /usr/local/bin/hexo
 hexo init hexo_test
 cd hexo_test
+npm install hexo-deployer-git --save
 npm install
 hexo server
 ```
-&#8195;&#8195;有时候执行hexo提示`hexo: command not found`，是因为环境变量里没有加入hexo，可以通过添加软连接解决。
-这样添加软连接是因为环境变量$PATH里面默认有 /usr/local/bin/ 的路径，软链接过来就可以直接使用node、 npm和hexo命令。
+&#8195;&#8195;有时候执行hexo提示 `hexo: command not found`，是因为环境变量里没有加入 hexo，可以通过添加软连接解决。这样添加软连接是因为环境变量 $PATH 里面默认有 /usr/local/bin/ 的路径，软链接过来就可以直接使用 node、 npm 和 hexo 命令。
+&#8195;&#8195;`hexo d` 时候如果提示 `Deployer not found: git`，是因为没有安装`hexo-deployer-git` 插件，安装即可。
+&#8195;&#8195;新建完成后，指定文件夹的目录如下：
+```
+.
+├── _config.yml
+├── package.json
+├── scaffolds
+├── source
+|   ├── _drafts
+|   └── _posts
+└── themes
+```
 
 ### 常用命令：
 ```shell
