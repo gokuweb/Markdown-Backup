@@ -226,7 +226,7 @@ permalink: /404
   </system.webServer>
 </configuration>
 ```
-虽然IIS是图形界面配置，配置完后实际上会生成一个 `web.config` ，测试时候报错：
+&#8195;&#8195;在 IIS 管理器对网站进行配置后，会在网站根目录生成一个 `web.config` ，所以在 IIS 管理器配置和直接该文件进行配置效果是一样的，这里测试时候报错：
 ```
 Absolute physical path "E:\web\404.html" is not allowed in system.webServer/httpErrors section in web.config file. Use relative path instead.
 ```
