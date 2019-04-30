@@ -279,11 +279,11 @@ $cat server.crt server.key > server.pem
 
 **openssl ca 方式解决**
 <span id="san-extension">添加 SAN 扩展需要修改配置文件<span>：
-1. 取消 `/etc/pki/tls/openssl.cnf` 中 `[req]` 节点下这句注释 `req_extensions= v3_req`，如果不想使用默认配置文件，也可以`openssl.cnf` 是我们在第二节中生成的配置文件，也可以直接在 `openssl.cnf` 进行配置；
+1. 取消 `/etc/pki/tls/openssl.cnf` 中 `[req]` 节点下这句注释 `req_extensions= v3_req`，如果想使用自定义的配置文件，看 [传送门](#custom-config) 。
 
-2. 在 `[v3_req ]` 节点下新增属性 `subjectAltName = @alt_names`；
+2. 在 `[v3_req ]` 节点下新增属性 `subjectAltName = @alt_names`。
 
-3. 新增节点：
+3. 新增如下节点，如果没有 DNS 只填写 IP 即可：
 ```
 [ alt_names ]
 DNS.1 = localhost
@@ -295,7 +295,7 @@ IP.1 = 192.168.1.1
 ```
 $ openssl ca -days 3650 -md sha256 -in server.csr \
  -out server.crt -cert ca.crt -keyfile ca.key -policy \
- policy_anything -config myopenssl.cnf -extensions v3_req
+ policy_anything -config openssl.cnf -extensions v3_req
 ```
 > 1. `[-md]`，指定签名算法；
 > 2. `[-config]`，指定配置文件；
@@ -322,7 +322,7 @@ $ touch CA/index.txt
 $ touch CA/serial
 $ echo "01" > CA/serial
 ```
-&#8195;&#8195;还需要修改 `/etc/pki/tls/openssl.cnf` 中 `[ CA_default ]` 下的 `dir` 为 `dir = ./CA`，这样就把根路径指定到了当前目录下的 `CA` 文件夹，现在我们可以使用自己的配置文件来生成证书：
+&#8195;&#8195;`index.txt` 和 `serial` 分别是证书索引数据库文件和证书序列号文件，还需要修改 `/etc/pki/tls/openssl.cnf` 中 `[ CA_default ]` 下的 `dir` 为 `dir = ./CA`，这样就把根路径指定到了当前目录下的 `CA` 文件夹，接下来还需要配置 SAN 扩展，看这里 [传送门](#openssl-config)，现在我们可以使用自己的配置文件来生成证书：
 ```
 $ openssl ca -policy policy_anything -in server.csr \
  -out server.crt -cert ca.crt -keyfile ca.key \
@@ -336,7 +336,6 @@ $ openssl ca -policy policy_anything -in server.csr \
 ...
 ...
 [ req ]
-default_bits    = 2048
 ...
 req_extensions= v3_req 
 
@@ -402,7 +401,7 @@ $ openssl x509 -in server.crt -text -noout
 ```
 
 ## <span id="easiest">懒人版自签名证书</span>
-&#8195;&#8195;以上我们都是先生成私钥 `ca.key` 和根证书 `ca.crt`，再用 `ca.key` 和 `ca.crt` 给用户证书请求 `server.csr` 签名，最简单的方法是直接使用自签名的根证书 `ca.crt`，当然名字无所谓，我们下面还用 `server.crt`。
+&#8195;&#8195;以上我们都是先生根成私钥 `ca.key` 和根证书 `ca.crt`，再用 `ca.key` 和 `ca.crt` 给用户证书请求 `server.csr` 签名，其实最简单的方法是直接使用自签名的根证书作为网站的证书，以下如果遇到问题请参考 [创建用户证书](#创建用户证书) 和 [Chrome-下的问题](#Chrome-下的问题) 章节的细节。
 
 ### 一句话生成证书
 

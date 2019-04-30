@@ -1,13 +1,13 @@
 ---
 title: 博客优化和CDN加速
-abbrlink: cc4a1e83
-date: 2018-11-04 11:13:30
 categories:
 - 运维
 tags:
 - CDN
 - SEO
 - HTTPS
+abbrlink: cc4a1e83
+date: 2018-11-04 11:13:30
 ---
 &#8195;&#8195;内容涉及：1. 访问顶级域名自动跳转到www二级域名，在服务端做还是在CDN和域名解析时候做？比如 `abc.com` 跳转到 `https://www.abc.com` ； 2. 配置CDN时候域名解析CNAME冲突？MX冲突？A记录冲突？ 3. CDN分别给顶级域名和二级域名加速，还是只对二级域名加速？ 4. 文章链接更新为 `https://www.abc.com/category/abbrlink.html` 格式。折腾了这么久，网站配置方面的事情应该可以告一段落了。
 <!-- more -->
@@ -39,7 +39,7 @@ category_map:
   其他: other
 tag_map:
 ```
-`category_map` 的功能本来就有，但是没开，我们写文章时候肯定是用中文的分类和标签，但是我们并不希望在链接中出现中文，所以要把中文映射成英文。这样就把 `abc.com/year/month/day/title/` 的链接变为了 `abc.com/category/abbrlink.html` ，像我本文的链接。
+&#8195;&#8195;`category_map` 的功能本来就有，但是没开，我们写文章时候肯定是用中文的分类和标签，但是我们并不希望在链接中出现中文，所以要把中文映射成英文。这样就把 `abc.com/year/month/day/title/` 的链接变为了 `abc.com/category/abbrlink.html` ，像我本文的链接。
 
 ### 链接提交
 **提交给百度**

@@ -13,21 +13,76 @@ date: 2018-10-18 18:18:02
 - 一个`<folder>/_config.yml`，配置网站名字、网站路径和主题目录等；
 - 另一个 `<folder>/themes/yelee/_config.yml`，配置主题搜索和评论等。
 <!-- more -->
+
 ## 配置
 &#8195;&#8195;以我的博客为例：
 ```shell
-~$ cd hexo_test
+$ cd hexo_test
 ~/hexo_test$ git clone https://github.com/MOxFIVE/hexo-theme-yelee.git themes/yelee
 ~/hexo_test$ vim _config.yml
 ```
 修改 `theme: landscape`为`theme: yelee`，`hexo s`之后**本地**已经可以访问了。但是存在以下几个问题：
-- 主页不显示文章
 - 无搜索功能
+- 无RSS订阅功能
+- 文章无永久链接
+- 链接中存在中文
+- 主页不显示文章
 - 评论系统失效
-- 左侧栏GitHub图标为空
+- 无法跳过指定文件的渲染
+- 左侧栏 GitHub 图标失效
 - 不蒜子统计失效
-- 自定义404
-- 跳过指定文件渲染
+- 404 页面不美观
+
+### 本地搜索
+&#8195;&#8195;需要先安装插件：
+```shell
+$ npm install hexo-generator-search --save
+```
+&#8195;&#8195;然后配置文件`themes/yelee/_config.yml`中修改为：
+```shell
+search:
+  on: ture
+  #on: false
+```
+&#8195;&#8195;本地搜索即可使用。
+
+### RSS 订阅
+需要安装插件：
+```shell
+$ npm install hexo-generator-feed --save
+```
+&#8195;&#8195;重启服务即可本地查看效果。
+
+
+### 文章永久链接
+&#8195;&#8195;永久链接的好处很多，最直接的，无论以后改变了文章标题还是 `markdown` 文档的名字，永久链接都不会改变，我们的文章链接就不会失效 ：
+1. 安装插件，这个插件会根据文章名字生成一个随机的字符串：
+```
+$ npm install hexo-abbrlink --save
+```
+
+2. 在 `_config.yml` 进行配置：
+```
+permalink: category/:abbrlink.html
+abbrlink:
+  alg: crc32  # 算法：crc16(default) and crc32
+  rep: hex    # 进制：dec(default) and hex
+```
+
+### 文章分类和链接
+&#8195;&#8195;我们一般都会设置文章的分类和标签，如果我们的 URL 是类似 `域名/分类/文章` 的格式，因为分类和标签基本都会使用汉字命名，所以 URL 中就可能存在汉字，如 `ab.com/网络安全/xss.html`，URL 里存在汉字不是不能，但因为编码问题并不友好。我们可以设置一下，比如把 `运维` 转化为 `operation`：
+```
+permalink: category/:abbrlink.html
+abbrlink:
+  alg: crc32  # 算法：crc16(default) and crc32
+  rep: hex    # 进制：dec(default) and hex
+
+default_category: uncategorized
+category_map:
+  运维: operation
+  其他: other
+tag_map:
+```
 
 ### 主页显示文章
 &#8195;&#8195;刚配置好时候可以在所有文章中看到写的文章，但是在主页空空如也，原因是配置文件的参数和js中不符,查看`themes/yelee/layout/_partial/head.ejs`：
@@ -60,19 +115,6 @@ search:
   on: false
 ```
 &#8195;&#8195;主页即可显示文章。
-
-### 本地搜索
-&#8195;&#8195;需要先安装插件：
-```shell
-$ npm install hexo-generator-search --save
-```
-&#8195;&#8195;然后配置文件`themes/yelee/_config.yml`中修改为：
-```shell
-search:
-  on: ture
-  #on: false
-```
-&#8195;&#8195;本地搜索即可使用。
 
 ### 评论系统
 &#8195;&#8195;第三方评论系统有很多，但是网易云跟帖于2017.8.1停止服务，多说于2017.6.1日停止服务，友言于2018.4.30日关闭服务，Disqus在国内使用不便等等，这里就使用Valine评论系统，Valine基于LeanCloud，所以：
@@ -141,7 +183,18 @@ valine: //unpkg.com/valine@1.2.0-beta1/dist/Valine.min.js
 }
 ```
 
-### GitHub图标
+### 跳过指定文件渲染
+&#8195;&#8195;比如 `README.md`、比如百度验证页面、比如谷歌验证页面、比如自定义404页面等，如果我们不想某些文件被渲染，就需要改一下配置文件  `_config.yml` ：
+```
+skip_render:
+    -  README.md
+    -  baidu_verify.html
+    -  google_verify.html
+    -  404/404.html
+```
+以 `source` 为根目录添加，所以不被渲染的文件实际上是 `source/README.md` 。
+
+### GitHub 图标
 &#8195;&#8195;GitHub图标显示异常，查看`themes/yelee/source/css/_partial/customise/social-icon.styl`如下：
 ```css
 .GitHub
@@ -165,7 +218,7 @@ valine: //unpkg.com/valine@1.2.0-beta1/dist/Valine.min.js
 <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
 ```
 
-### 自定义404
+### 自定义 404 页面
 **公益404页面**
 按照常规操作：
 1. `hexo new page 404`
@@ -235,52 +288,35 @@ Absolute physical path "E:\web\404.html" is not allowed in system.webServer/http
 > 2. 搜索 `system.webServer/httpErrors`；
 > 3. 把`allowAbsolutePathsWhenDelegated` 的值改为 `True` 。
 
-### 跳过指定文件渲染
-&#8195;&#8195;比如 `README.md`、比如百度验证页面、比如谷歌验证页面、比如自定义404页面等，如果我们不想某些文件被渲染，就需要改一下配置文件  `_config.yml` ：
-```
-skip_render:
-    -  README.md
-    -  baidu_verify.html
-    -  google_verify.html
-    -  404/404.html
-```
-以 `source` 为根目录添加，所以不被渲染的文件实际上是 `source/README.md` 。
-
-### RSS订阅
-需要安装插件：
-```shell
-$ npm install hexo-generator-feed --save
-```
-&#8195;&#8195;重启服务即可本地查看效果。
-
-## 相关
-### Hexo安装
-1. 安装Nodjs
+## Hexo 安装
+1. 安装 Nodjs
 &#8195;&#8195;安装方法有 apt-get、源码安装等方法，我们选择解压版本的 Nodejs，加压后添加软连接就可以使用，无需编译安装：
 ```shell
-wget https://nodejs.org/dist/v8.12.0/node-v8.12.0-linux-x64.tar.xz
-tar xf node-v8.12.0-linux-x64.tar.xz
-sudo ln -s /home/zx/node-v8.12.0-linux-x64/bin/node   /usr/local/bin/node
-sudo ln -s /home/zx/node-v8.12.0-linux-x64/bin/npm /usr/local/bin/npm
-node -v
-npm -v
+$ wget https://nodejs.org/dist/v8.12.0/node-v8.12.0-linux-x64.tar.xz
+$ tar xf node-v8.12.0-linux-x64.tar.xz
+$ sudo ln -s /home/zx/node-v8.12.0-linux-x64/bin/node   /usr/local/bin/node
+$ sudo ln -s /home/zx/node-v8.12.0-linux-x64/bin/npm /usr/local/bin/npm
+$ node -v
+$ npm -v
 ```
 
 2. 安装 Git
 ```shell
-sudo apt-get install git
+$ sudo apt-get install git
 ```
 
 3. 安装 Hexo
 ```shell
-npm install -g hexo-cli
-sudo ln -s /home/zx/node-v8.12.0-linux-x64/lib/node_modules/hexo-cli/bin/hexo /usr/local/bin/hexo
-hexo init hexo_test
-cd hexo_test
-npm install hexo-deployer-git --save
-npm install
-hexo server
+$ npm install -g hexo-cli
+$ sudo ln -s /home/zx/node-v8.12.0-linux-x64/lib/node_modules/hexo-cli/bin/hexo /usr/local/bin/hexo
+$ hexo init hexo_test
+$ cd hexo_test
+$ npm install hexo-deployer-git --save
+$ npm install
+$ hexo server
 ```
+
+&#8195;&#8195; `npm install` 时候可能会提示`npm WARN babel-eslint@10.0.1 requires a peer of eslint@>= 4.12.1 but none is installed. You must install peer dependencies yourself.` ，执行 `$ npm install lodash` 然后再 `npm install` 即可。关于 `fsevents` 的警告不用管，因为 `fsevents` 是苹果系统的可选依赖。
 &#8195;&#8195;有时候执行hexo提示 `hexo: command not found`，是因为环境变量里没有加入 hexo，可以通过添加软连接解决。这样添加软连接是因为环境变量 $PATH 里面默认有 /usr/local/bin/ 的路径，软链接过来就可以直接使用 node、 npm 和 hexo 命令。
 &#8195;&#8195;`hexo d` 时候如果提示 `Deployer not found: git`，是因为没有安装`hexo-deployer-git` 插件，安装即可。
 &#8195;&#8195;新建完成后，指定文件夹的目录如下：
@@ -295,7 +331,7 @@ hexo server
 └── themes
 ```
 
-### 常用命令：
+## Hexo 常用命令
 ```shell
 $ hexo init hexo_test  #初始化hexo环境，所有博客相关均在该目录下
 $ hexo new page about  #创建“关于我”页面
