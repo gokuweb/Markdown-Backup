@@ -120,7 +120,7 @@ reg2.test('-') // -> false，reg2想要匹配的是1或2或3
 
 ### 括号
 &#8195;&#8195;**小括号** `()` 的作用是实现分组和分支结构（或者叫多选结构），分组的类型很多，单独小括号属于捕获型分组，当有捕获分组时候，在匹配成功的一串字符串中，捕获组的内容会被自动提取并保存。
-```
+```python
 string = "2017-06-12"
 print(re.findall(r'\d{4}-\d{2}-\d{2}', string))
 ['2017-06-12']
@@ -150,7 +150,7 @@ print(re.findall(r'(\d{4})-(\d{2})-(\d{2})', string))
 
 **捕获型分组  -  ()**
 &#8195;&#8195;一对圆括号括起来的表达式是捕获组，格式 `(Pattern)` ，与小括号内的表达式匹配的内容都会被保存起来，后续可以执行各种操作。 我们知道 `/a+/` 匹配连续出现的 "a"，而要匹配连续出现的 "ab" 时，需要使用 `/(ab)+/`，其中括号是提供分组功能，使量词 `+` 作用于 "ab" 这个整体，Python3 代码如下：
-```
+```python
 str1 = "123@qq.comaaa@163.combbb@126.comasdf111@asdfcom"
 print(re.findall(r'\w+@(qq|163|126).com',str1))
 ['qq', '163', '126']
@@ -160,7 +160,7 @@ print(re.findall(r'(\d+)(\.?)(\d+)([$￥])', str2))
 [('10010', '.', '86', '$'), ('10000', '.', '86', '￥')]  
 ```
 &#8195;&#8195;四个分组内的数据会被提取出来。分组序号看左小括号就行了左括号考前的，序号就考前，JS 中可以用 `\1` 和 `$1` 取对应分组：
-```
+```js
 var reg = /(A+)((B|C|D)+)(E+)/gi;//该正则表达式有4个分组
 //对应关系
 //RegExp.$1 <-> (A+)
@@ -173,7 +173,7 @@ var reg = /(A+)((B|C|D)+)(E+)/gi;//该正则表达式有4个分组
 
 **非捕获性分组  -  (?:)**
 &#8195;&#8195;小括号内以 `?:` 开头的是非捕获组，格式 `(?:Pattern)`，非捕获组仅参与匹配，不提取内容，既起到了分组的作用，又不会破坏正则表达式的整体性：
-```
+```python
 str3 = "123@qq.comaaa@163.combbb@126.comasdf111@asdfcom"
 print(re.findall(r'\w+@(?:qq|163|126).com',str3))
 ['123@qq.com', 'aaa@163.com', 'bbb@126.com']
@@ -186,7 +186,7 @@ print(re.findall(r'(\d+)(?:\.?)(?:\d+)([￥$])$', str4))
 
 **正向前瞻型  -  (?=)**
 &#8195;&#8195;正向前瞻，格式 `(?=Pattern)`，表示 **后面要有什么** 。前瞻分组会作为匹配校验，但不出现在匹配结果字符里面，而且不作为子匹配返回。
-```
+```python
 str5 = "123aa4aa56aaf"
 print(re.findall(r'[0-9a-z]{2}(?=aa)', str5))
 ['23', 'a4', '56']
@@ -196,7 +196,7 @@ print(re.findall(r'[0-9a-z]{2}(?=aa)', str5))
 &#8195;&#8195;在看一个例子，表达式 `(\w)((?=\1\1\1)(\1))+` 在匹配字符串 "aaa ffffff 999999999" 时，将可以匹配6个 "f" 的前 4 个，因为最后一个 `(\1)` 可以重复使用 `(?=\1\1\1)` 匹配过的字符，匹配 9 个 "9" 的前 7 个。这个表达式可以读解成：重复 4 次以上的字母数字，则匹配其剩下最后 2 位之前的部分。当然，这个表达式可以不这样写，在此的目的是作为演示之用。
 
 非捕获型分组和前瞻型分组区别：
-```
+```python
 str6 = "kid is a doubi"
 print(re.findall(r'(kid is a (?=doubi))', str6))
 ['kid is a ']
@@ -213,7 +213,7 @@ print(re.findall(r'(kid is a (?:doubi))', str6))
 **正向后顾  -  (?<=)**（JavaScript 不支持）
 正向后顾，格式 `(?<=Pattern)`，表示 **前面要有什么**。
 &#8195;&#8195;用法和正向前瞻类似：
-```
+```python
 str7 = "123aa4aa56aaf"
 print(re.findall(r'(?<=aa)[0-9a-z]{2}', str7))
 ['4a', '56']
@@ -230,7 +230,7 @@ print(re.findall(r'(?<=aa)[0-9a-z]{2}', str7))
 > I love Regular Expression
 
 js中正则代码如下：
-```
+```js
 var regex = /^I love (JavaScript|Regular Expression)$/;
 console.log( regex.test("I love JavaScript") ); // true
 console.log( regex.test("I love Regular Expression") ); // true
@@ -245,7 +245,7 @@ console.log( regex.test("I love Regular Expression") ); // true
 &#8195;&#8195;表达式在匹配时，表达式引擎会将小括号 `( )` 包含的表达式所匹配到的字符串记录下来。在获取匹配结果的时候，小括号包含的表达式所匹配到的字符串可以单独获取。当用某种边界来查找，而所要获取的内容又不包含边界时，必须使用小括号来指定所要的范围。
 
 &#8195;&#8195;`\1` 引用第 1 对括号内匹配到的字符串，`\2` 引用第 2 对括号内匹配到的字符串……以此类推，如果一对括号内包含另一对括号，则外层的括号先排序号。换句话说，哪一对的左括号 "(" 在前，那这一对就先排序号。
-```
+```python
 str8 = "aaa bbbb ccccc abcdef ddddddd 11112111"
 print(re.findall(r'(\w)\1{4,}', str3))
 ['c', 'd']
@@ -360,7 +360,7 @@ re.match(pattern, string, flags=0)
 > 1. group(num=0) ，匹配的整个表达式的字符串，group() 可以一次输入多个组号，在这种情况下它将返回一个包含那些组所对应值的元组。
 > 2. groups() ，返回一个包含所有小组字符串的元组，从 1 到 所含的小组号。
 
-```
+```python
 #!/usr/bin/python3
 import re
  
@@ -441,7 +441,7 @@ var result = re.exec(str);
 > 5. `lastIndex`，下一次匹配开始的位置 25。
 
 再看一个例子：
-```
+```js
 var regex = /(ab.)+/;
 var string = "abaabb abcxabd abeab";
 regex.exec(string)[0];  //"abaabb"
@@ -449,7 +449,7 @@ regex.exec(string)[0];  //"abaabb"
 regex.exec(string)[1];  //"abb"
 ```
 &#8195;&#8195;元字符 `+` 是贪婪模式，也就是会尽可能多的匹配符合的字符，第一次执行 `regex.exec(string)` 匹配到的是 "abaabb"，因为遇到空格时候不再符合 `(ab.)` 的格式所以暂停，贪婪模式取 "abb" ，如果非贪婪模式就是 "aba"。第一次执行 `regex.exec(string)` 和第一次结果一样，因为 `lastIndex` 没变，但是有了参数 `g` 就不一样了。若指定了 `g`，则下次调用 `exec` 时，会从上个匹配的 `lastIndex` 开始查找：
-```
+```js
 var regex2 = /(ab.)+/g;
 var string2 = "abaabb abcxabd abeab";
 regex2.exec(string2);
@@ -466,14 +466,14 @@ regex2.exec(string2)[1]; //"abd"
 
 **match() 方法**
 &#8195;&#8195;查找一个或多个正则表达式的匹配。`match` 和 `exec` 一样，但 `exec` 是 RegExp 对象的方法；`math` 是 String 对象的方法。二者还有一个不同点，就是对参数 `g` 的解释，如果指定了参数 `g`，那么 `match` 一次返回所有的结果：
-```
+```js
 var regex3 = /(ab.)+/g;
 var string3 = "abaabb abcxabd abeab";
 string3.match(regex3);
 ["abaabb", "abc", "abd", "abe"]
 ```
 &#8195;&#8195; JS 和 Python3 的 `match` 不同，Python3 中 `re.match` 尝试从字符串的 **起始位置** 匹配一个模式，如果不是起始位置匹配成功的话，返回 None。JS 的 `match` 和 Python3 中 **非捕获** 模式的 `re.findall` 类似 ：
-```
+```python
 string4 = "abaabb abcxabd abeab"
 print(re.findall(r'(ab.)+', string4))
 ['abb', 'abc', 'abd', 'abe']
@@ -485,14 +485,14 @@ print(re.findall(r'(?:ab.)+', string4))
 
 **search() 方法 **
 &#8195;&#8195;用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串，并返回子串的起始位置：
-```
+```js
 var str = "Visit Runoob!"; 
 str.search(/Runoob/i); // 6
 ```
 
 **replace() 方法**
  用于在字符串中用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串：
-```
+```js
 var str = "Visit Microsoft!"; 
 str.replace(/microsoft/i,"Runoob"); // "Visit Runoob!"
 ```
