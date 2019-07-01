@@ -32,6 +32,7 @@ $ cd hexo_test
 - 左侧栏 GitHub 图标失效
 - 不蒜子统计失效
 - 404 页面不美观
+- 数学公式无法显示
 
 ### 本地搜索
 &#8195;&#8195;需要先安装插件：
@@ -287,6 +288,21 @@ Absolute physical path "E:\web\404.html" is not allowed in system.webServer/http
 > 1. 左键服务器，双击配置编辑器，不是左键网站，是网站的爷爷目录；
 > 2. 搜索 `system.webServer/httpErrors`；
 > 3. 把`allowAbsolutePathsWhenDelegated` 的值改为 `True` 。
+
+### 数学公式
+&#8195;&#8195;markdown 中数学公式需要用 `$$` 包含，但需要先在配置文件打开该功能：
+```
+vim themes/yelee/_config.yml
+
+mathjax: true
+```
+
+&#8195;&#8195;`$$ x^{y^z}=(1+{\rm e}^x)^{-2xy^w} $$` ：
+> $$ x^{y^z}=(a_1+{\rm e}^x)^{-2xy^w} $$
+> `{}`，分组
+> `^`，上标
+> `_`，下标
+> `\rm`，罗马字体
 
 ## Hexo 安装
 1. 安装 Nodjs
