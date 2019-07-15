@@ -34,6 +34,8 @@ $ cd hexo_test
 - 404 页面不美观
 - 数学公式无法显示
 
+&#8195;&#8195;涉及 SEO、CDN 可以参考 [博客优化和CDN加速](原文: https://www.gokuweb.com/operation/cc4a1e83.html)，涉及云服务端部署可以参考 [Hexo部署到 Win 云服务器](https://www.gokuweb.com/operation/13b88df5.html)。
+
 ### 本地搜索
 &#8195;&#8195;需要先安装插件：
 ```shell
@@ -297,8 +299,8 @@ vim themes/yelee/_config.yml
 mathjax: true
 ```
 
-&#8195;&#8195;`$$ x^{y^z}=(1+{\rm e}^x)^{-2xy^w} $$` ：
-> $$ x^{y^z}=(a_1+{\rm e}^x)^{-2xy^w} $$
+&#8195;&#8195;`$ x^{y^z}=(1+{\rm e}^x)^{-2xy^w} $` 表现为如下：
+> $ x^{y^z}=(a_1+{\rm e}^x)^{-2xy^w} $
 > `{}`，分组
 > `^`，上标
 > `_`，下标
@@ -349,17 +351,17 @@ $ hexo server
 
 ## Hexo 常用命令
 ```shell
-$ hexo init hexo_test  #初始化hexo环境，所有博客相关均在该目录下
-$ hexo new page about  #创建“关于我”页面
-$ hexo new hello-world #创建文章hello-world.md
-$ hexo new draft test  #创建草稿test.md，默认不会显示在页面
-$ hexo new page tags   #创建标签云页面
-$ hexo server          #启动服务器
-$ hexo generate        #生成静态文件
-$ hexo deploy          #部署网站
-$ hexo clean           #清除缓存文件 (db.json) 和已生成的静态文件 (public)
-$ hexo list            #列出网站资料
-$ hexo migrate <type>  #从其他博客系统[迁移内容](https://hexo.io/zh-cn/docs/migration)。
+$ hexo init hexo_test  # 初始化hexo环境，所有博客相关均在该目录下
+$ hexo new page about  # 创建“关于我”页面
+$ hexo new hello-world # 创建文章hello-world.md
+$ hexo new draft test  # 创建草稿test.md，默认不会显示在页面
+$ hexo new page tags   # 创建标签云页面
+$ hexo server          # 启动服务器
+$ hexo generate        # 生成静态文件
+$ hexo deploy          # 部署网站
+$ hexo clean           # 清除缓存文件 (db.json) 和已生成的静态文件 (public)
+$ hexo list            # 列出网站资料
+$ hexo migrate <type>  # 从其他博客系统[迁移内容](https://hexo.io/zh-cn/docs/migration)。
 ```
 
 ## 参考

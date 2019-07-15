@@ -85,7 +85,7 @@ date: 2019-06-27 20:51:34
 
 &#8195;&#8195;从 Python 1.4 开始才有了扩展切片（Extended Slices），引入了第三个参数 step，当 step = -1 时原字符串会被直接逆序，但是如果只想截取部分字符串进行逆序，就需要注意一些细节。
 
-**当 step > 0 时，begin 必须在 end 左边，即 begin < end**
+**<font color="red">当 step > 0 时，begin 必须在 end 左边，即 begin < end</font>**
 
 &#8195;&#8195;因为 step > 0 时候是从左往右遍历的，begin < end 才是有效的区间，当不符合情况时，没有符合的数据会返回空：
 
@@ -102,7 +102,7 @@ date: 2019-06-27 20:51:34
 
 
 
-**当 step < 0 时，begin 必须在 end 右边，即 begin > end**
+**<font color="red">当 step < 0 时，begin 必须在 end 右边，即 begin > end</font>**
 
 &#8195;&#8195;因为 step < 0 时候是从右往左遍历的，begin > end 才是有效的区间，当不符合情况时，没有符合的数据会返回空：
 
@@ -154,8 +154,8 @@ date: 2019-06-27 20:51:34
 
 
 ## zip
-&#8195;&#8195;`zip()` 函数用于将可迭代的对象作为参数，如 **列表、元组、字符串**，将对象中对应的元素打包成一个个 **元组** ，然后返回由这些元组组成的对象。这比 Python 2 中直接返回列表节约了不少内存，我们可以使用 `list()` 转换来输出列表 。
-&#8195;&#8195;如果各个迭代器的元素个数不一致，则返回列表 **长度与最短的对象相同** ，利用 `*` 号操作符，可以将元组解压为列表。
+&#8195;&#8195;`zip()` 函数用于将可迭代的对象作为参数，如 **列表、元组、字符串**，将对象中对应的元素 **打包成一个个元组** ，然后返回由这些元组组成的对象。这比 Python 2 中直接返回列表节约了不少内存，我们可以使用 `list()` 转换来输出列表 。
+&#8195;&#8195;如果各个迭代器的元素个数不一致，则返回列表 **长度与最短的对象相同** ，利用 `*` 号操作符，可以将元组 **解压为列表** 。
 
 > zip 方法在 Python 2 和 Python 3 中的不同：在 Python 2.x zip() 返回的是一个列表，如果需要了解 Pyhton2 的应用，可以参考 [Python zip()](https://www.runoob.com/python/python-func-zip.html) 。
 
@@ -209,7 +209,7 @@ date: 2019-06-27 20:51:34
 
 ## enumerate
 
-&#8195;&#8195;`enumerate()` 函数用于将一个可遍历的数据对象组合为一个索引序列，如 **列表、元组、字符串** ，同时列出数据和数据下标，一般用在 `for` 循环当中。
+&#8195;&#8195;`enumerate()` 函数用于将一个可遍历的数据对象 **组合为一个索引序列** ，如 **列表、元组、字符串** ，同时列出数据和数据下标，一般用在 `for` 循环当中。
 
 
 
@@ -241,20 +241,216 @@ date: 2019-06-27 20:51:34
 
 >>>list(enumerate(seasons, start=1))       # 小标从 1 开始
 [(1, 'Spring'), (2, 'Summer'), (3, 'Fall'), (4, 'Winter')]
+
+```
+
+```python
+if __name__ == '__main__':
+    for i, j in enumerate('abc'):
+        print(i, j)
+
+# 0 a
+# 1 b
+# 2 c
 ```
 
 [Python3 enumerate() 函数](https://www.runoob.com/python3/python3-func-enumerate.html)
 
 
-## set
-
-&#8195;&#8195;`set()` 函数创建一个 **无序** 的 **不重复** 元素序列，无序是指每次执行后顺序都可能不同，可以对 **元组、字符串** 使用，用大括号 `{ } `或者 `set()` 函数创建集合，**创建一个空集合必须用 set() 而不是 { }**，因为 `{ }` 是用来创建一个空字典。还可进行关系测试，删除重复数据，计算交集、差集、并集等。
 
 
+## list、dict、set 对比
+
+### 异同之处
+
+|          | list | dict | set |
+| -------- | ---- | ---- | --- |
+| 添加元素 | 1. <font color="red">list.append(obj)</font>，obj 可以是字符、列表、字典等任意对象，添加至 **列表末尾** 。<br/>2. <font color="red">list.extend(seq)</font>，在 **列表末尾** 一次性追加另一个序列中的多个值（用新列表扩展原来的列表）。<br/>3. <font color="red">list.insert(index, obj)</font>，类似 append，把对象插入列表中 **指定索引处** 。 | 1. <font color="red">dict[key] = value</font> ，在字典中添加键/值对。<br/>2. <font color="red">dict.update(dict2)</font>，把 **字典** dict2 的键/值对添加到 dict 里。 | 1. <font color="red">set.add(element)</font>，将元素添加到集合中，如果元素已存在则不进行任何操作。<br/>2. <font color="red">set.update(obj)</font>，也是添加元素，参数可以是列表、元组、字典等，但加入集合后都是单个元素。 |
+| 移除元素 | 1. <font color="red">list.remove(obj)</font>，移除列表中 **第一个** 匹配的对象。<br/>2. <font color="red">list.pop(index=-1)</font>，移除列表中 **指定索引处** 的对象，默认是最后一个元素。 | 1. <font color="red">dict.pop(key)</font>，移除 key 及其对应的值。<br>2. <font color="red">dict[key].remove(element)</font>，**仅限于** value 是 **列表** 或 **集合** 的形式，因为列表和集合有 remove()  方法，字典本身没有。 | 1. <font color="red">set.remove(element)</font>，将元素从集合中移除，如果元素不存在则报错。<br/>2. <font color="red">set.discard(element)</font>，同上，但如果元素不存在，不会发生错误。<br/>3. <font color="red">set.pop()</font>，**随机** 删除集合中的一个元素。 |
+| 删除     | 1. <font color="red">del list[index]</font>，删除列表中 **指定索引处** 的对象。<br/>2. <font color="red">del list</font>，删除 **列表** ，变量不再存在。 | 1. <font color="red">del dic['a']</font>  ，删除键 'a' 及其值。<br/>2. <font color="red">del dict</font>，删除 **字典** ，变量不再存在。 | <font color="red">del set</font>，删除 **集合** ，变量不再存在。 |
+| 清空     | <font color="red">list.clear()</font>，清空列表              | <font color="red">dict.clear()</font>，清空字典              | <font color="red">set.clear()</font>，清空集合               |
+
+
+
+### 列表
+
+**列表的函数和方法**
+
+除了最常用的，列表还有以下一些方法：
+
+1. 列表常见的方法中，**没返回值** 的是 append、extend、insert、remove、reverse、sort、clear，**有返回值** 的是 count、index、pop、copy，没返回值的情况基本都是对原列表进行操作。
+2. list.index(obj) 方法，从列表中找出 **第一个** 匹配项的 **索引位置** 。
+3. list.reverse() 方法，反向列表中的元素，**单纯的逆转，不涉及排序** 。
+4. list.count(obj) 方法，统计某个元素在列表中出现的 **次数** 。
+5. list.sort( key=None, reverse=False) 方法，对原列表进行排序，reverse = True 降序， reverse = False 升序（默认）。
+6. list(seq) 函数，一般用于将字符串、简单元组/集合（无嵌套）转换为列表 ，对于复杂的数据结构如嵌套的集合、元组还有字典，list 的处理结果有些差强人意，如下：
+
+```python
+>>> test1 = {1, 2, 3, 4}
+>>> list(test1)
+[1, 2, 3, 4]
+>>> test2 = (1, 2, (3, 4))
+>>> list(test2)
+[1, 2, (3, 4)]
+>>> test3 = {'a': 1, 'b': 2, 'c': {3, 4}}
+>>> list(test3)
+['a', 'b', 'c']
+>>> list(test3.values())
+[1, 2, {3, 4}]
+>>> list(test3.items())
+[('a', 1), ('b', 2), ('c', {3, 4})]
+
+```
+
+
+
+### 可哈希和不可哈希
+
+&#8195;&#8195;**集合中的成员和字典中的 key 都必须是可哈希的**。在集合中插入列表会报错 “TypeError: unhashable type: 'list'” ，提示列表是不可哈希类型，可哈希对象可以理解为不可变对象 ：
+
+> 如果一个对象在其生命周期内，其哈希值从未改变（这需要一个 `__hash__()` 方法），并且可以与其他对象进行比较（这需要一个 `__eq__()` 或`__cmp__()` 方法），那么这个对象就是可哈希的。哈希对象的相等意味着其哈希值的相等。
+
+&#8195;&#8195;所以 Python 中 **字符串和元组都是可哈希的**，**列表、字典、集合都是不可哈希的**。我们自定义的类的实例对象默认也是可哈希的（hashable），而 hash 值也就是它们的 id()。
+
+&#8195;&#8195;哈希表查找元素的过程，就是在不断地在哈希冲突然后通过某种 hash 算法重新定位的过程，如果这个值是个可变类型，那么可能会破坏稳定的哈希结构，所以字典的 key 必须是可哈希的（也就是不可变的）。
+
+> 哈希表的查找过程就是对待查找元素用哈希函数计算散列地址，若地址为空则查找失败；若不为空，如果相等则查找成功；若不相等则哈希冲突，按照处理冲突的方法计算下一个地址。
+
+&#8195;&#8195;列表是有序的，通过索引访问；字典是无序的，通过 key 访问。列表要维持有序性，所以对增（insert(i, item)）、删（pop(i)）、查（in）的最坏时间复杂度为 O(n) ；字典是使用哈希表实现的，时间复杂度依 hash 算法碰撞几率而定，虽然最坏时间复杂度也是 O(n)，但这个概率极低，时间复杂度一般都是 O(1)。
+
+
+
+[python中的hashable（可哈希的）是什么意思](<https://blog.csdn.net/qq_17753903/article/details/85345996>)
+
+[[Python 为什么list不能作为字典的key？](https://www.kawabangga.com/posts/1821)]
+
+
+
+### 字典
+
+&#8195;&#8195;列表是有序的对象集合，字典是 **无序** 的对象集合，两者之间的区别在于：字典当中的元素是通过键来存取的，而不是通过偏移存取。字典是一种映射类型，用 `{}` 标识，它是一个无序的 `键(key) : 值(value)` 对集合。有两点需要注意：
+
+> 1. **key 必须是可哈希类型（不可变对象），比如元素和字符串，value 可以取任何数据类型，如字符串、字典、列表等。**
+> 2. **不允许同一个 key 出现两次。创建时如果同一个键被赋值两次，后一个值会被记住。**
+
+
+
+**语法：**
+
+> d = {key1 : value1, key2 : value2 }
+>
+> or
+>
+> dict(kwarg)
+> dict(mapping, kwarg)
+> dict(iterable, kwarg)
+
+
+
+**参数说明：**
+
+> kwargs -- 关键字
+> mapping -- 元素的容器。
+> iterable -- 可迭代对象。
+
+
+
+**实例：**
+
+```python
+>>>dict()                        # 创建空字典
+{}
+>>> dict(a='a', b='b', t='t')     # 传入关键字
+{'a': 'a', 'b': 'b', 't': 't'}
+>>> dict(zip(['one', 'two', 'three'], [1, 2, 3]))   # 映射函数方式来构造字典
+{'three': 3, 'two': 2, 'one': 1} 
+>>> dict([('one', 1), ('two', 2), ('three', 3)])    # 可迭代对象方式来构造字典
+{'three': 3, 'two': 2, 'one': 1}
+>>>
+```
+
+
+
+**字典的函数和方法**
+
+除了最常用的，字典还有以下一些方法：
+
+1. 字典常见的方法中，**没返回值** 的是 update、clear，**有返回值** 的是 fromkeys、get、keys、values、items、setdefault，没返回值的情况基本都是对原字典进行操作。
+2. radiansdict.fromkeys(seq) 方法，创建一个新字典，以序列 seq 中元素做字典的键，val 为字典所有键对应的初始值 。
+3. radiansdict.get(key, default=None) 方法，返回指定键的值，如果值不在字典中返回 default 值。
+4. radiansdict.keys() 方法，返回一个迭代器，可以使用 list() 来转换为列表。
+5. radiansdict.values() 方法，返回一个迭代器，可以使用 list() 来转换为列表。
+6. radiansdict.items() 方法，以列表返回可遍历的(键, 值) 元组数组 。
+7. radiansdict.setdefault(key, default=None) 方法，和 get() 类似，但如果键不存在于字典中，将会添加键并将值设为 default 。
+
+
+
+**实例：**
+
+```python
+# fromkeys
+>>> seq = ('name', 'age', 'sex')
+>>> dict.fromkeys(seq)
+{'name': None, 'age': None, 'sex': None}
+>>> dict.fromkeys(seq, 10)
+{'name': 10, 'age': 10, 'sex': 10}
+
+>>> dic = {'Name': 'Runoob', 'Age': 7}
+# get
+>>> dic.get('Name')
+'Runoob'
+>>> dic.get('aaa')
+
+# items
+>>> dic.items()
+dict_items([('Name', 'Runoob'), ('Age', 7)])
+
+# setdefault
+>>> dic.setdefault('Age', None)
+7
+>>> dic.setdefault('aaaa', None)
+>>> dic
+{'Name': 'Runoob', 'Age': 7, 'aaaa': None}
+```
+
+
+
+获取字典的键值：
+
+```python
+if __name__ == '__main__':
+    graph = {'A': {'B': 1, 'C': 12},
+             'B': {'C': 9, 'D': 3},
+             'C': {'E': 5},
+             'D': {'E': 13, 'F': 15},
+             'E': {'F': 4},
+             'F': {}
+             }
+    for nodes in graph.keys():
+        for w in graph[nodes].items():
+            print(w)
+            
+# ('B', 1)
+# ('C', 12)
+# ('C', 9)
+# ('D', 3)
+# ('E', 5)
+# ('E', 13)
+# ('F', 15)
+# ('F', 4)
+```
+
+
+
+### 集合
+
+&#8195;&#8195;`set()` 函数创建一个 **无序** 的 **不重复** 元素序列，无序是指每次执行后顺序都可能不同。集合的元素必须是 **可哈希** 的，比如元组和字符串。用大括号 `{} `或者 `set()` 函数创建集合，**创建一个空集合必须用 set() 而不是 { }**，因为 `{}` 是用来创建一个空字典。集合还可进行关系测试，删除重复数据，计算交集、差集、并集等。
+
+&#8195;&#8195;集合中可以插入元素但 **不能修改已有元素，也不能插入可变对象**，集合是一种特殊的字典，相当于只有字典的 key，所以集合的成员也必须是可哈希的，如元组和字符串等。
 
 **set 语法：**
 
-> parame = {value01,value02,...}
+> parame = {value01, value02, ...}
 > set(value)
 
 
@@ -288,179 +484,123 @@ False
 
 
 
-## dict
+**集合的函数和方法**
 
-&#8195;&#8195;列表是有序的对象集合，字典是 **无序** 的对象集合，两者之间的区别在于：字典当中的元素是通过键来存取的，而不是通过偏移存取。字典是一种映射类型，用 `{ }` 标识，它是一个无序的 `键(key) : 值(value)` 对集合。
+除了最常用的，集合还有以下一些方法：
+
+1. 字典常见的方法中，**没返回值** 的是 difference_update、intersection_update、symmetric_difference_update，**有返回值** 的是 difference、intersection、isdisjoint、issubset、issuperset、symmetric_difference、union，没返回值的情况基本都是对原集合进行操作。
+
+2. set.difference(set2, ...) 方法，返回多个集合的差集。
+
+3. set.difference_update(set2, ...) 方法，返回多个集合的差集。 difference() 方法返回一个移除相同元素的新集合，而 difference_update() 方法是直接在原来的集合中移除元素，没有返回值。
+
+4. set.intersection(set2, ...) 方法，返回多个集合的交集。
+
+5. set.intersection_update(set2, ...) 方法，返回多个集合的交集，intersection() 方法是返回一个新的集合，而 intersection_update() 方法是在原始的集合上移除不重叠的元素。。
+
+6. set.isdisjoint(set2) 方法，判断两个集合是否包含相同的元素，如果没有返回 True，否则返回 False。
+
+7. set.issubset(set2) 方法，判断 set 是否为 set2 的子集。
+
+8. set.issuperset(set2) 方法，判断 set2 是否为 set 的子集，如果是则返回 True，否则返回 False。
+
+9. set.symmetric_difference() 方法，返回两个集合组成的新集合，但会移除两个集合的重复元素。
+
+10. set.symmetric_difference_update() 方法，移除 set 中与 set2 重复的元素，并将 set2 中不同于 set1 的元素插入到 set1 中。
+
+11. set.union(set2, ...) 方法，返回两多个集合的并集。
+
+    
+
+[Python 3 教程](<https://www.runoob.com/python3/python3-tutorial.html>)
 
 
 
-**语法：**
+### sort 和 sorted
 
-> d = {key1 : value1, key2 : value2 }
->
-> or
->
-> dict(kwarg)
-> dict(mapping, kwarg)
-> dict(iterable, kwarg)
+|      | sort      | sorted      |
+| ---- | --------- | ----------- |
+| 异同 | 1. 列表中成员类型要一致。<br/>2. 只能用于 <font color="red">列表</font> 。<br/>3. 无返回值，<font color="red">在原 list 上直接进行排序</font> 。 | 1. 列表中成员类型要一致。<br/>2. 可用于 <font color="red">所有可迭代对象</font>> 。<br/>3. <font color="red">不改变原 list</font> ，返回一个排序后的 <font color="red">列表</font> 。 |
+| 用法 | list.sort( key=None, reverse=False)                          | sorted(iterable, key=None, reverse=False)                    |
+| 参数 | 1. reverse，排序规则，reverse = True 降序 ， reverse = False 升序（默认）。<br/>2. key，用来进行比较的元素。 | 1. iterable，可迭代对象。<br/>2. reverse ，reverse ，True 降序，默认是 False 升序。<br/>3. key，用来进行比较的元素。 |
 
-
-
-**参数说明：**
-
->  kwargs -- 关键字
-> mapping -- 元素的容器。
-> iterable -- 可迭代对象。
+&#8195;&#8195;相比于 Python2.x，Python3.x  中的 sort 和 sorted 都少了 cmp 参数。为了兼容性两个版本都不建议使用 cmp 参数。
 
 
 
-**实例：**
+&#8195;&#8195;**sort 实例**
+
 
 ```python
->>>dict()                        # 创建空字典
-{}
->>> dict(a='a', b='b', t='t')     # 传入关键字
-{'a': 'a', 'b': 'b', 't': 't'}
->>> dict(zip(['one', 'two', 'three'], [1, 2, 3]))   # 映射函数方式来构造字典
-{'three': 3, 'two': 2, 'one': 1} 
->>> dict([('one', 1), ('two', 2), ('three', 3)])    # 可迭代对象方式来构造字典
-{'three': 3, 'two': 2, 'one': 1}
->>>
+# 例一：
+>>> test1 = [(2, 2), (3, 4), (4, 1), (1, 3), (2, 1)]
+>>> test1.sort()
+>>> test1
+[(1, 3), (2, 1), (2, 2), (3, 4), (4, 1)]
+
+# 方法一：lambda 匿名函数
+>>> test1.sort(key=lambda item: item[1])
+>>> test1
+[(2, 1), (4, 1), (2, 2), (1, 3), (3, 4)]
+
+# 方法二：自定义函数
+>>> def takeSecond(elem):
+...     return elem[1]
+...
+>>> test1.sort(key=takeSecond)
+>>> test1
+[(2, 1), (4, 1), (2, 2), (1, 3), (3, 4)]
+
+# 例二：
+>>> test2 = ["1","10","3","22","23","4","2","200"]
+>>> test2.sort()
+>>> test2
+['1', '10', '2', '200', '22', '23', '3', '4']
+>>> test2.sort(key=int)
+>>> test2
+['1', '2', '3', '4', '10', '22', '23', '200']
 ```
 
 
 
-**有两点需要注意：**
-
-> 1. 键必须是唯一的，但值不必，键(key) 必须使用不可变对象，值可以取任何数据类型，如字符串、数字、元组，不可以使用列表。
->
-> 2. 不允许同一个键出现两次。创建时如果同一个键被赋值两次，后一个值会被记住。
+&#8195;&#8195;Python 允许用 lambda 关键字创造匿名函数。在需要一个函数但又没必要专门去命名一个函数的时候，可以使用 lambda 表达式，也就是指匿名函数，这个表达式的定义体必须和声明放在同一行。lambda 是一个表达式，而不是一个语句（lambda is an expression, not a statement.）因此 lambda 能够出现在 Python 语法不允许 def 出现的地方&mdash;&mdash;例如，在一个列表常量中或者函数调用的参数中。
 
 
 
-### items
+**sorted 实例**
 
-
-&#8195;&#8195;`items()` 方法以列表返回可遍历的 (键, 值) 元组数组。
-
-**语法：**
-
-> dict.items()
->
-> 无参数，返回可遍历的 (键, 值) 元组数组。
-
-
-
-**实例：**
 
 ```python
-#!/usr/bin/python3
- 
->>> dict = {'Name': 'Runoob', 'Age': 7}
->>> dict.items()
-dict_items([('Name', 'Runoob'), ('Age', 7)])
->>> list(dict.items())
-[('Name', 'Runoob'), ('Age', 7)]
+# 集合排序
+>>> test2 = {"1", "10", "3", "22", "23", "4", "2", "200"}
+>>> sorted(test2)
+['1', '10', '2', '200', '22', '23', '3', '4']
+>>> sorted(test2, key=int)
+['1', '2', '3', '4', '10', '22', '23', '200']
+>>> sorted(test2, key=int, reverse=True)
+['200', '23', '22', '10', '4', '3', '2', '1']
+
+# 字典排序
+>>> test3 = {1: [1, 3], 2: [2, 1], 5: [1, 2], 3: [3, 4], 4: [4, 1]}
+sorted(test3)
+[1, 2, 3, 4, 5]
+
+>>> sorted(test3.items())
+[(1, [1, 3]), (2, [2, 1]), (3, [3, 4]), (4, [4, 1]), (5, [1, 2])]
+
+>>> sorted(test3.items(), key=lambda x: x[1])
+[(5, [1, 2]), (1, [1, 3]), (2, [2, 1]), (3, [3, 4]), (4, [4, 1])]
 ```
 
 
 
-### keys
-
-&#8195;&#8195;Python3 字典 `keys()` 方法返回一个可迭代对象，可以使用 list() 来转换为列表。Python2.x 是直接返回列表。
-
-**语法：**
-
-> dict.keys()
->
-> 无参数，返回一个迭代器。
+&#8195;&#8195;sorted 虽然可以对所有可迭代对象排序，但返回的任然是一个列表。
 
 
 
-**实例：**
+[Python3 List sort()方法](<https://www.runoob.com/python3/python3-att-list-sort.html>)
 
-```python
->>> dict = {'Name': 'Runoob', 'Age': 7}
->>> dict.keys()
-dict_keys(['Name', 'Age'])
->>> list(dict.keys())             # 转换为列表
-['Name', 'Age']
->>> 
-```
-
-
-
-获取字典的键值：
-
-```python
-if __name__ == '__main__':
-    graph = {'A': {'B': 1, 'C': 12},
-             'B': {'C': 9, 'D': 3},
-             'C': {'E': 5},
-             'D': {'E': 13, 'F': 15},
-             'E': {'F': 4},
-             'F': {}
-             }
-    for nodes in graph.keys():
-        for w in graph[nodes].items():
-            print(w)
-            
-# ('B', 1)
-# ('C', 12)
-# ('C', 9)
-# ('D', 3)
-# ('E', 5)
-# ('E', 13)
-# ('F', 15)
-# ('F', 4)
-```
-
-
-
-## 元素操作
-
-**对于 List：**
-
-```python
-classmates = ['Michael', 'Bob', 'Tracy']
-classmates.append('Adam')    # 添加在末尾，没有 add()方法
-classmates.insert(1, 'Jack') # 在指定位置添加
-classmates.pop(1)            # 在知道位置删除，参数是索引
-del classmate[1]             # 删除第二个元素
-classmates.remove('Bob')     # 参数是元素，删除第一个与 Bob 值匹配的元素，之后又相同元素不会删除
-```
-
-
-
-**对于 dict：**
-
-```python
-d = {'a': 'A', 'b': 'B'}
-del d['a']
-d.pop('a')    # 参数是 key，没有 remove() 方法
-d['c'] = 'C';   # 插入直接赋值即可
-```
-
-
-
-**对于set：**
-
-```python
-s = {1,2,3}     # set 对象的创建也可以是 s= set (iterable)
-s.add(8)        # 添加 8 到末尾，没有 append() 方法
-s.remove(8)     # 删除最后一个元素
-```
-
-
-
-**对于 tuple：**
-
-&#8195;&#8195;由于 tuple 一旦初始化就不能修改，所以不能插入和删除
-
-
-
-[Python可迭代对象中的添加和删除（add，append,pop,remove,insert）](https://blog.csdn.net/handsome_gay/article/details/52740055)
-
+[Python sorted() 函数](<https://www.runoob.com/python/python-func-sorted.html>)
 
 
 

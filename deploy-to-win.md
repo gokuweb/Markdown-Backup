@@ -1,5 +1,5 @@
 ---
-title: hexo部署到win云服务器
+title: Hexo部署到 Win 云服务器
 categories:
   - 运维
 tags:
